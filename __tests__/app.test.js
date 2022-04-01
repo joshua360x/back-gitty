@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const agent = request.agent(app);
 
-jest.mock('../lib/utils/githubTestMock');
+jest.mock('../lib/utils/github');
 
 describe('gitty routes', () => {
   beforeEach(() => {
@@ -23,20 +23,14 @@ describe('gitty routes', () => {
     );
   });
 
-  it('should login and redirect users to /api/v1/github/dashboard', async () => {
+  it('should login and redirect users to /api/v1/github/posts', async () => {
     const req = await request
       .agent(app)
       .get('/api/v1/github/login/callback?code=42')
       .redirects(1);
 
-    expect(req.body).toEqual({
-      id: expect.any(String),
-      username: 'fake_github_user',
-      email: 'not-real@example.com',
-      avatar: expect.any(String),
-      iat: expect.any(Number),
-      exp: expect.any(Number),
-    });
+      console.log('req :>> ', req.req.path);
+    expect(req.req.path).toEqual('/api/v1/posts');
   });
 
   it('should sign the user out by deleting its cookie', async () => {
