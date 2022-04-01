@@ -29,7 +29,7 @@ describe('gitty routes', () => {
       .get('/api/v1/github/login/callback?code=42')
       .redirects(1);
 
-    console.log('req :>> ', req.req.path);
+    // console.log('req :>> ', req.req.path);
     expect(req.req.path).toEqual('/api/v1/posts');
   });
 
