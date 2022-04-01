@@ -5,7 +5,7 @@ const app = require('../lib/app');
 
 jest.mock('../lib/utils/githubTestMock');
 
-describe('why-i-autha routes', () => {
+describe('gitty routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
