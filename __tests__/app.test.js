@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const agent = request.agent(app);
 
 jest.mock('../lib/utils/githubTestMock');
 
@@ -35,6 +36,14 @@ describe('gitty routes', () => {
       avatar: expect.any(String),
       iat: expect.any(Number),
       exp: expect.any(Number),
+    });
+  });
+
+  it('should sign the user out by deleting its cookie', async () => {
+    const res = await agent.delete('/api/v1/github/');
+    expect(res.body).toEqual({
+      success: true,
+      message: 'You have been successfully logged out. Have a great day!',
     });
   });
 });
