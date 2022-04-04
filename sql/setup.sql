@@ -14,7 +14,18 @@ CREATE TABLE users (
 CREATE TABLE posts (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   text_posts VARCHAR(255),
-  username TEXT REFERENCES users(username)
+  username_id BIGINT REFERENCES users(id)
 );
 
+
+
+
+
+-- INSERT INTO users(username, email, avatar)
+-- VALUES
+-- ('firstPost', 'op', 'avatar');
+
+-- INSERT INTO posts(text_posts, username_id)
+-- VALUES
+-- ('first post', 1);
 
