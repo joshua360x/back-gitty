@@ -57,12 +57,20 @@ describe('gitty routes', () => {
   //     },
   //   ]);
   // });
-  // it('should make a post if user is authenticated', async () => {
-  //   const res = await agent.post('/api/v1/posts/').send({
-  //     textPosts: 'I like cool things',
-  //   });
-  //   expect(res.body).toEqual({
-  //     textPosts: 'asdas',
-  //   });
-  // });
+  it('should make a post if user is authenticated', async () => {
+    const agent = request.agent(app);
+    await agent.get('/api/v1/github/login/callback?code=42').redirects(1);
+    const res = await agent.post('/api/v1/posts/').send({
+      textPosts: 'I like cool things',
+    });
+
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      textPosts: 'I like cool things',
+      username: expect.any(String),
+    });
+    // expect(res.body).toEqual({
+    //   textPosts: 'asdas',
+    // });
+  });
 });
