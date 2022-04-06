@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const Post = require('../lib/models/Post');
 // const UserService = require('../lib/services/UserService');
 const agent = request.agent(app);
 
@@ -42,21 +43,14 @@ describe('gitty routes', () => {
     });
   });
 
-  // it('should get all the posts that was cretaed in the setup sql', async () => {
-  //   const res = await request
-  //     .agent(app)
-  //     .get('/api/v1/github/login/callback?code=42');
-
-  //   // const userCreated = await UserService.createProfile(42);
-  //   const req = await request(app).get('/api/v1/posts');
-  //   expect(req.body).toEqual([
-  //     {
-  //       id: expect.any(String),
-  //       textPosts: expect.any(String),
-  //       username: 'joshua360x',
-  //     },
-  //   ]);
-  // });
+  it('should get all the posts that was cretaed in the setup sql', async () => {
+    const agent = request.agent(app);
+    await agent.get('/api/v1/github/login/callback?code=42').redirects(1);
+    // const userCreated = await UserService.createProfile(42);
+    const expected = await Post.getAllPosts();
+    const req = await agent.get('/api/v1/posts');
+    expect(req.body).toEqual(expected);
+  });
   it('should make a post if user is authenticated', async () => {
     const agent = request.agent(app);
     await agent.get('/api/v1/github/login/callback?code=42').redirects(1);
