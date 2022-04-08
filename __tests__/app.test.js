@@ -67,4 +67,8 @@ describe('gitty routes', () => {
     //   textPosts: 'asdas',
     // });
   });
+  it('should make a GET request to /api/v1/quotes', async () => {
+    const res = await request(app).get('/api/v1/quotes');
+    expect(res.body).toEqual(expect.arrayContaining([]));
+  });
 });
